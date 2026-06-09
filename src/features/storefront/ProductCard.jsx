@@ -21,4 +21,10 @@ export function ProductCard({ product, addToCart }) {
             <p className="text-sm text-slate">{product.stock} units in stock</p>
           </div>
           <button onClick={() => addToCart(product.id)} className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary text-white shadow-glow" aria-label={`Add ${product.name}`}>
-            <Plus size={
+            <Plus size={20} />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}

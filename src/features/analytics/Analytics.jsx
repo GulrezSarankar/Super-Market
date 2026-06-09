@@ -19,9 +19,9 @@ export function Analytics({ products, orders }) {
         <div className="space-y-4">
           {products.map((product) => (
             <div key={product.id}>
-              <div className="mb-2 flex justify-between text-sm font-semibold">
-                <span>{product.name}</span>
-                <span>{product.stock}</span>
+              <div className="mb-2 flex items-start justify-between gap-3 text-sm font-semibold">
+                <span className="min-w-0 break-words">{product.name}</span>
+                <span className="shrink-0">{product.stock}</span>
               </div>
               <div className="h-3 overflow-hidden rounded-full bg-mist">
                 <div className="h-full rounded-full bg-primary" style={{ width: `${(product.stock / maxStock) * 100}%` }} />
@@ -33,4 +33,3 @@ export function Analytics({ products, orders }) {
     </section>
   );
 }
-

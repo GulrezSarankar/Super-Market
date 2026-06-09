@@ -10,9 +10,9 @@ export function CartContent({ cartDetails, updateCart, subtotal, tax, total, set
       ) : (
         cartDetails.map((item) => (
           <div key={item.id} className="flex gap-3 rounded-xl border border-line bg-white p-3">
-            <img className="h-16 w-16 rounded-xl object-cover" src={item.image} alt={item.name} />
+            <img className="h-14 w-14 shrink-0 rounded-xl object-cover sm:h-16 sm:w-16" src={item.image} alt={item.name} />
             <div className="min-w-0 flex-1">
-              <p className="truncate font-bold">{item.name}</p>
+              <p className="break-words font-bold">{item.name}</p>
               <p className="text-sm text-slate">{currency(item.price)}</p>
               <div className="mt-2 flex items-center gap-2">
                 <button className="cart-step" onClick={() => updateCart(item.id, -1)} aria-label={`Remove one ${item.name}`}>

@@ -29,12 +29,12 @@ export function Dashboard({ products, orders, settings, setActiveView }) {
               ['Open billing', CreditCard, 'billing'],
               ['Staff access', Users, 'users'],
             ].map(([label, Icon, view]) => (
-              <button key={label} onClick={() => setActiveView(view)} className="flex items-center justify-between rounded-xl border border-line bg-mist p-4 text-left font-bold text-ink">
-                <span className="flex items-center gap-3">
-                  <Icon size={19} className="text-primary" />
+              <button key={label} onClick={() => setActiveView(view)} className="flex items-center justify-between gap-3 rounded-xl border border-line bg-mist p-4 text-left font-bold text-ink">
+                <span className="flex min-w-0 items-center gap-3">
+                  <Icon size={19} className="shrink-0 text-primary" />
                   {label}
                 </span>
-                <ChevronRight size={18} />
+                <ChevronRight size={18} className="shrink-0" />
               </button>
             ))}
           </div>

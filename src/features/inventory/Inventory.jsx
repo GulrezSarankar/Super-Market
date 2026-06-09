@@ -26,4 +26,36 @@ export function Inventory({ products, addProduct, updateProduct, removeProduct }
           </article>
         ))}
       </div>
-      <Panel title
+      <Panel title="Stock ledger">
+        <div className="hidden overflow-x-auto scrollbar-thin md:block">
+          <table className="w-full min-w-[780px] border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-line text-xs uppercase tracking-wider text-slate">
+                <th className="py-3">Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Reorder</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id} className="border-b border-mist last:border-0">
+                  <td className="py-3 font-bold">{product.name}</td>
+                  <td><Input value={product.category} onChange={(value) => updateProduct(product.id, { category: value })} /></td>
+                  <td><NumberInput value={product.price} onChange={(value) => updateProduct(product.id, { price: value })} /></td>
+                  <td><NumberInput value={product.stock} onChange={(value) => updateProduct(product.id, { stock: value })} /></td>
+                  <td><NumberInput value={product.reorder} onChange={(value) => updateProduct(product.id, { reorder: value })} /></td>
+                  <td><span className={`rounded-full px-3 py-1 text-xs font-bold ${product.stock <= product.reorder ? 'bg-orange-100 text-warning' : 'bg-emerald-50 text-primary'}`}>{product.stock <= product.reorder ? 'Restock' : 'Available'}</span></td>
+                  <td className="text-right"><button onClick={() => removeProduct(product.id)} className="rounded-lg p-2 text-danger hover:bg-red-50" aria-label="Remove product"><Trash2 size={17} /></button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Panel>
+    </section>
+  );
+}

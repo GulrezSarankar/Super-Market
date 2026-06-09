@@ -19,4 +19,10 @@ export function Storefront({ filteredProducts, addToCart, setActiveView }) {
       </div>
       <SectionTitle eyebrow="Shop" title="Fresh picks for today" action={`${filteredProducts.length} items`} />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {filteredProducts.map((pro
+        {filteredProducts.map((product) => (
+          <ProductCard key={product.id} product={product} addToCart={addToCart} />
+        ))}
+      </div>
+    </section>
+  );
+}
