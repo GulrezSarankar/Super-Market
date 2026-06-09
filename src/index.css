@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #0b1c30;
+  background:
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.18), transparent 34rem),
+    linear-gradient(180deg, #f8f9ff 0%, #eef5ff 100%);
+  font-family: Inter, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #bcc7de;
+  border-radius: 999px;
+}
+
+@layer components {
+  .field {
+    @apply rounded-xl border border-line bg-mist px-3 py-2 text-sm font-semibold text-ink outline-none transition focus:border-primary focus:bg-white focus:ring-4 focus:ring-emerald/15;
+  }
+
+  .cart-step {
+    @apply grid h-7 w-7 place-items-center rounded-lg bg-mist text-primary transition hover:bg-emerald hover:text-white;
+  }
+}
