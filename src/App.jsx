@@ -5,10 +5,12 @@ import { MobileNav } from './components/layout/MobileNav';
 import { CartPanel } from './components/layout/CartPanel';
 import { productImages, seedOrders, seedProducts, seedSettings, seedUsers } from './data/seedData';
 import { useStoredState } from './hooks/useStoredState';
+import { normalizeProducts } from './utils/products';
 import { Analytics } from './features/analytics/Analytics';
 import { Billing } from './features/billing/Billing';
 import { Dashboard } from './features/dashboard/Dashboard';
 import { Inventory } from './features/inventory/Inventory';
+import { ProductDetails } from './features/productDetails/ProductDetails';
 import { SettingsPanel } from './features/settings/SettingsPanel';
 import { Storefront } from './features/storefront/Storefront';
 import { UsersPanel } from './features/users/UsersPanel';
@@ -16,33 +18,37 @@ import { UsersPanel } from './features/users/UsersPanel';
 export default function App() {
   const [activeView, setActiveView] = useState('store');
   const [query, setQuery] = useState('');
-  const [products, setProducts] = useStoredState('fm_products', seedProducts);
+  const [products, setProducts] = useStoredState('fm_products', normalizeProducts(seedProducts));
   const [cart, setCart] = useStoredState('fm_cart', []);
   const [orders, setOrders] = useStoredState('fm_orders', seedOrders);
   const [users, setUsers] = useStoredState('fm_users', seedUsers);
   const [settings, setSettings] = useStoredState('fm_settings', seedSettings);
   const [toast, setToast] = useState('Local data saved');
+  const [selectedProductId, setSelectedProductId] = useState(seedProducts[0]?.id);
+
+  const productsWithBarcodes = useMemo(() => normalizeProducts(products), [products]);
 
   const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
+    return productsWithBarcodes.filter((product) => {
       const haystack = `${product.name} ${product.category} ${product.tag}`.toLowerCase();
       return haystack.includes(query.toLowerCase());
     });
-  }, [products, query]);
+  }, [productsWithBarcodes, query]);
 
   const cartDetails = useMemo(() => {
     return cart
       .map((line) => {
-        const product = products.find((item) => item.id === line.id);
+        const product = productsWithBarcodes.find((item) => item.id === line.id);
         return product ? { ...product, quantity: line.quantity } : null;
       })
       .filter(Boolean);
-  }, [cart, products]);
+  }, [cart, productsWithBarcodes]);
 
   const subtotal = cartDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * (Number(settings.taxRate) / 100);
   const total = subtotal + tax + (cartDetails.length ? Number(settings.deliveryFee) : 0);
   const cartCount = cart.reduce((sum, line) => sum + line.quantity, 0);
+  const selectedProduct = productsWithBarcodes.find((product) => product.id === selectedProductId);
 
   const addToCart = (id) => {
     setCart((current) => {
@@ -90,6 +96,7 @@ export default function App() {
   const addProduct = () => {
     const newProduct = {
       id: `p-${Date.now()}`,
+      barcode: `890100${Date.now().toString().slice(-7)}`,
       name: 'New Seasonal Item',
       category: 'Produce',
       price: 6.5,
@@ -109,10 +116,38 @@ export default function App() {
   const removeProduct = (id) => {
     setProducts((current) => current.filter((product) => product.id !== id));
     setCart((current) => current.filter((line) => line.id !== id));
+    if (selectedProductId === id) {
+      setSelectedProductId(products.find((product) => product.id !== id)?.id);
+    }
+  };
+
+  const openProduct = (id) => {
+    setSelectedProductId(id);
+    setActiveView('product-details');
+  };
+
+  const scanBarcode = (barcode) => {
+    const cleanCode = barcode.trim();
+    if (!cleanCode) return false;
+
+    const matchedProduct = productsWithBarcodes.find((product) => product.barcode === cleanCode || product.id.toLowerCase() === cleanCode.toLowerCase());
+    if (!matchedProduct) {
+      setToast(`No product found for barcode ${cleanCode}`);
+      return false;
+    }
+
+    if (matchedProduct.stock <= 0) {
+      setToast(`${matchedProduct.name} is out of stock`);
+      return false;
+    }
+
+    addToCart(matchedProduct.id);
+    setToast(`Scanned ${matchedProduct.name}`);
+    return true;
   };
 
   const viewProps = {
-    products,
+    products: productsWithBarcodes,
     filteredProducts,
     cartDetails,
     subtotal,
@@ -133,6 +168,8 @@ export default function App() {
     setUsers,
     setActiveView,
     setToast,
+    openProduct,
+    scanBarcode,
   };
 
   return (
@@ -142,6 +179,7 @@ export default function App() {
         <Sidebar activeView={activeView} setActiveView={setActiveView} />
         <main className="min-w-0 flex-1">
           {activeView === 'store' && <Storefront {...viewProps} />}
+          {activeView === 'product-details' && <ProductDetails product={selectedProduct} {...viewProps} />}
           {activeView === 'dashboard' && <Dashboard {...viewProps} />}
           {activeView === 'inventory' && <Inventory {...viewProps} />}
           {activeView === 'billing' && <Billing {...viewProps} />}

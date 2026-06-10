@@ -8,12 +8,12 @@ export const productImages = [
 ];
 
 export const seedProducts = [
-  { id: 'p-101', name: 'Organic Greens Box', category: 'Produce', price: 9.8, stock: 38, reorder: 12, image: productImages[0], tag: 'Fresh' },
-  { id: 'p-102', name: 'Hydroponic Lettuce', category: 'Produce', price: 3.6, stock: 9, reorder: 15, image: productImages[1], tag: 'Low stock' },
-  { id: 'p-103', name: 'Berry Breakfast Mix', category: 'Fruit', price: 7.4, stock: 26, reorder: 10, image: productImages[2], tag: 'Popular' },
-  { id: 'p-104', name: 'Cold Pressed Milk', category: 'Dairy', price: 4.9, stock: 41, reorder: 14, image: productImages[3], tag: 'Daily' },
-  { id: 'p-105', name: 'Artisan Pantry Kit', category: 'Pantry', price: 14.5, stock: 18, reorder: 8, image: productImages[4], tag: 'Bundle' },
-  { id: 'p-106', name: 'Golden Banana Crate', category: 'Fruit', price: 5.2, stock: 7, reorder: 18, image: productImages[5], tag: 'Low stock' },
+  { id: 'p-101', barcode: '890100100101', name: 'Organic Greens Box', category: 'Produce', price: 9.8, stock: 38, reorder: 12, image: productImages[0], tag: 'Fresh' },
+  { id: 'p-102', barcode: '890100100102', name: 'Hydroponic Lettuce', category: 'Produce', price: 3.6, stock: 9, reorder: 15, image: productImages[1], tag: 'Low stock' },
+  { id: 'p-103', barcode: '890100100103', name: 'Berry Breakfast Mix', category: 'Fruit', price: 7.4, stock: 26, reorder: 10, image: productImages[2], tag: 'Popular' },
+  { id: 'p-104', barcode: '890100100104', name: 'Cold Pressed Milk', category: 'Dairy', price: 4.9, stock: 41, reorder: 14, image: productImages[3], tag: 'Daily' },
+  { id: 'p-105', barcode: '890100100105', name: 'Artisan Pantry Kit', category: 'Pantry', price: 14.5, stock: 18, reorder: 8, image: productImages[4], tag: 'Bundle' },
+  { id: 'p-106', barcode: '890100100106', name: 'Golden Banana Crate', category: 'Fruit', price: 5.2, stock: 7, reorder: 18, image: productImages[5], tag: 'Low stock' },
 ];
 
 export const seedUsers = [

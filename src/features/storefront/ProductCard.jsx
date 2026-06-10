@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react';
 import { currency } from '../../utils/currency';
 
-export function ProductCard({ product, addToCart }) {
+export function ProductCard({ product, addToCart, openProduct }) {
   const low = product.stock <= product.reorder;
 
   return (
@@ -19,11 +19,15 @@ export function ProductCard({ product, addToCart }) {
           <div className="min-w-0">
             <p className="font-display text-xl font-bold text-primary sm:text-2xl">{currency(product.price)}</p>
             <p className="text-sm text-slate">{product.stock} units in stock</p>
+            <p className="mt-1 font-mono text-xs font-semibold text-slate">{product.barcode}</p>
           </div>
           <button onClick={() => addToCart(product.id)} className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary text-white shadow-glow" aria-label={`Add ${product.name}`}>
             <Plus size={20} />
           </button>
         </div>
+        <button onClick={() => openProduct(product.id)} className="w-full rounded-xl border border-line bg-mist px-4 py-2 text-sm font-bold text-primary transition hover:bg-emerald-50">
+          View details
+        </button>
       </div>
     </article>
   );

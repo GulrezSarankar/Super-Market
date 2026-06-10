@@ -1,7 +1,7 @@
 import { SectionTitle } from '../../components/ui/SectionTitle';
 import { ProductCard } from './ProductCard';
 
-export function Storefront({ filteredProducts, addToCart, setActiveView }) {
+export function Storefront({ filteredProducts, addToCart, openProduct, setActiveView }) {
   return (
     <section className="space-y-5 sm:space-y-6">
       <div className="relative min-h-[430px] overflow-hidden rounded-2xl bg-ink shadow-glow sm:min-h-[360px]">
@@ -20,7 +20,7 @@ export function Storefront({ filteredProducts, addToCart, setActiveView }) {
       <SectionTitle eyebrow="Shop" title="Fresh picks for today" action={`${filteredProducts.length} items`} />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} addToCart={addToCart} />
+          <ProductCard key={product.id} product={product} addToCart={addToCart} openProduct={openProduct} />
         ))}
       </div>
     </section>
